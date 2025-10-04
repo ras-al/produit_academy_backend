@@ -12,6 +12,7 @@ from rest_framework import generics, permissions, status, parsers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.exceptions import AuthenticationFailed
 
 from .serializers import (
     UserSerializer, CourseRequestSerializer, StudyMaterialSerializer,
@@ -31,8 +32,6 @@ class SignUpView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        user.is_active = False
-        user.save()
 
         # Student ID Generation
         student_id = f"PROD-{random.randint(1000, 9999)}"
@@ -117,17 +116,12 @@ class PasswordResetRequestOTPView(APIView):
         email = request.data.get('email')
         try:
             user = User.objects.get(email=email)
-            
-            # Generate and save a new OTP
             otp = str(random.randint(1000, 9999))
             user.otp = otp
             user.otp_expiry = timezone.now() + timedelta(minutes=5)
             user.save()
-            
-            # Send the OTP email
             send_mail('Password Reset OTP for Produit Academy', f'Your OTP to reset your password is: {otp}', 'from@produit.academy', [user.email], fail_silently=True)
             print(f"--- Password Reset OTP {otp} sent to {user.email} ---")
-            
             return Response({'detail': 'OTP has been sent to your email.'})
         except User.DoesNotExist:
             return Response({'detail': 'User with this email does not exist.'}, status=status.HTTP_404_NOT_FOUND)
@@ -143,7 +137,7 @@ class PasswordResetConfirmView(APIView):
             user = User.objects.get(email=email)
             if user.otp == otp and user.otp_expiry > timezone.now():
                 user.set_password(password)
-                user.otp = None # Clear OTP fields
+                user.otp = None
                 user.otp_expiry = None
                 user.save()
                 return Response({'detail': 'Password has been reset successfully.'})
@@ -226,10 +220,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
-# This is the view for serving the PDF file directly.
-# It will be used by the Google Docs viewer when the site is deployed.
 class MaterialFileView(generics.GenericAPIView):
-    # This is intentionally not authenticated for the Google Viewer to work
     permission_classes = [permissions.AllowAny] 
     queryset = StudyMaterial.objects.all()
 
