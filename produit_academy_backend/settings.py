@@ -15,7 +15,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = [
     'django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes',
     'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles',
-    'rest_framework', 'rest_framework_simplejwt', 'corsheaders', 'api',
+    'rest_framework', 'rest_framework_simplejwt', 'corsheaders', 'api','whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -25,7 +25,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware', 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+    r"^http://localhost:3000$",
+    r"^http://127.0.0.1:3000$",
+]
 ROOT_URLCONF = 'produit_academy_backend.urls'
 
 TEMPLATES = [{'BACKEND': 'django.template.backends.django.DjangoTemplates', 'DIRS': [], 'APP_DIRS': True,
