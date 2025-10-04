@@ -1,0 +1,19 @@
+# Virtual Environment
+venv/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Django session files / databases
+db.sqlite3
+*.log
+
+# Media files (user uploads)
+/media/
+
+# Static files collected for deployment
+/staticfiles/
