@@ -25,7 +25,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware', 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGIN_REGEXES = [
+CORS_ALLOWED_ORIGINS = [
     r"^https://.*\.vercel\.app$",
     r"^http://localhost:3000$",
     r"^http://127.0.0.1:3000$",
