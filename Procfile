@@ -1,0 +1,1 @@
+web: gunicorn produit_academy_backend.wsgi
