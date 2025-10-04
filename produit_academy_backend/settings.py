@@ -26,9 +26,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    r"^https://.*\.vercel\.app$",
-    r"^http://localhost:3000$",
-    r"^http://127.0.0.1:3000$",
+    "https://produit-academy-frontend.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 ROOT_URLCONF = 'produit_academy_backend.urls'
 
