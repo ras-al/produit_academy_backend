@@ -25,6 +25,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware', 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_TRUSTED_ORIGINS = [
+    "https://produit-academy-frontend.vercel.app",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://produit-academy-frontend.vercel.app",
+]
+
 CORS_ALLOWED_ORIGINS = [
     "https://produit-academy-frontend.vercel.app",
     "http://localhost:3000",
